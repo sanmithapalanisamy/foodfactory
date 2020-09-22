@@ -1,0 +1,1435 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "FoodFactory API information",
+    "version": "1.0.0",
+    "title": "Food Factory"
+  },
+  "host": "localhost:8000",
+  "basePath": "/",
+  "tags": [
+    {
+      "name": "users",
+      "description": "Everything about user action and crud operations"
+    },
+    {
+      "name": "ingredients",
+      "description": "CRUD operations of ingredients"
+    },
+    {
+      "name": "food",
+      "description": "CRUD operations of food"
+    },
+    {
+      "name": "orders",
+      "description": "CRUD operations of orders"
+    }
+  ],
+  "paths": {
+
+    "/signup": {
+      "get": {
+        "tags": [
+          "users"
+        ],
+        "summary": "signup page",
+        "description": "to open signup page (here just sends successful response)",
+        "operationId": "singupForm",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "users"
+        ],
+        "summary": "User registeration",
+        "description": "User data for registeration",
+        "operationId": "userSignUp",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "reqBody",
+            "description": "User signup credentials",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "email": {
+                  "type": "string"
+                },
+                "role": {
+                  "type": "string",
+                  "description": "Specify whether admin or user role"
+                },
+                "password": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "name",
+                "email",
+                "role",
+                "password"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfull registeration"
+          },
+          "400": {
+            "description": "Invalid input"
+          },
+          "401": {
+            "description": "Authentication failed"
+          }
+        }
+      }
+    },
+
+    "/login": {
+      "get": {
+        "tags": [
+          "users"
+        ],
+        "summary": "login page",
+        "description": "sends response to open login page",
+        "operationId": "loginForm",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "users"
+        ],
+        "summary": "User login",
+        "description": "Submit user credentials to login",
+        "operationId": "userSignIn",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "reqBody",
+            "description": "User login credentials",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "type": "string"
+                },
+                "password": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfull login"
+          },
+          "400": {
+            "description": "Invalid input"
+          },
+          "401": {
+            "description": "Authentication failed"
+          }
+        }
+      }
+    },
+ 
+    "/logout":{
+      "post" : {
+        "tags": [
+          "users"
+        ],
+        "summary": "User logout",
+        "description": "Clears login credentials from express session - logout only if user logged in",
+        "operationId": "userLogout",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfull Logout"
+          },
+          "400": {
+            "description": "Invalid input"
+          },
+          "401": {
+            "description": "Authentication failed"
+          }
+        }
+      }
+    },
+
+
+    "/updatePassword": {
+      "get": {
+        "tags": [
+          "users"
+        ],
+        "summary": "updatePassword page",
+        "description": "to open updatePassword page (here just sends success response)",
+        "operationId": "updatePasswordForm",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "successful response"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "users"
+        ],
+        "summary": "update Password",
+        "description": "User can change their passowrd by entering their registered email and password",
+        "operationId": "updatePassword",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "reqBody",
+            "description": "Update Password credentials",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "type": "string"
+                },
+                "oldPassword": {
+                  "type": "string",
+                  "description": "Enter here the old password"
+                },
+                "password": {
+                  "type": "string",
+                  "description": "Enter new password"
+                },
+                "confirmPassword": {
+                  "type": "string",
+                  "description": "Enter new password again"
+                }
+              },
+              "required": [
+                "oldPassword",
+                "email",
+                "password",
+                "confirmPassword"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Password updated successfully"
+          },
+          "400": {
+            "description": "Invalid input"
+          },
+          "401": {
+            "description": "Authentication failed"
+          }
+        }
+      }
+    },
+    "/updateUser": {
+      "put": {
+        "tags": [
+          "users"
+        ],
+        "summary": "update user name",
+        "description": "User can change name - logged in user is choosen",
+        "operationId": "updateUser",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "reqBody",
+            "description": "Update logged in user name",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "name"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User name updated successfully"
+          },
+          "400": {
+            "description": "Invalid input"
+          },
+          "401": {
+            "description": "Authentication failed"
+          }
+        }
+      }
+    },
+    "/listAllUsers": {
+      "get": {
+        "tags": [
+          "users"
+        ],
+        "summary": "list all users",
+        "description": "List of all registered users. This can be accessed only by users with admin role",
+        "operationId": "listAllUsers",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "successful response"
+          },
+          "400": {
+            "description": "Invalid input"
+          },
+          "401": {
+            "description": "Authentication failed"
+          }
+        }
+      }
+    },
+    "/deactivateUser/{userId}": {
+      "put": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Deactivate user",
+        "description": "Admin can deactivate user by passing id and changing status to false",
+        "operationId": "deactivateUser",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userId",
+            "description": "user id that need to be deactivated"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User deactivated successfully"
+          },
+          "400": {
+            "description": "Invalid input"
+          },
+          "401": {
+            "description": "Authentication failed"
+          }
+        }
+      }
+    },
+    "/api/ingredients": {
+      "get": {
+        "tags": [
+          "ingredients"
+        ],
+        "summary": "New ingredient form page",
+        "description": "To load new ingredient form - just send success response",
+        "operationId": "loadIngredientForm",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "successful response"
+          },
+          "401": {
+            "description": "User not logged in / User does not have admin role"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "ingredients"
+        ],
+        "summary": "Create new ingredient",
+        "description": "New ingredient can be created with input data - only logged in admin role can create this",
+        "operationId": "createIngredient",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "reqBody",
+            "in": "body",
+            "description": "Input ingredient details",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "availableQuantity": {
+                  "type": "number"
+                },
+                "thresholdQuantity": {
+                  "type": "number"
+                },
+                "price": {
+                  "type": "number"
+                },
+                "vendorName": {
+                  "type": "string"
+                },
+                "vendorEmail": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "name",
+                "availableQuantity",
+                "thresholdQuantity",
+                "price",
+                "vendorName",
+                "vendorEmail"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Invalid input value"
+          }
+        },
+        "security": [
+          {
+            "petstore_auth": [
+              "write:pets",
+              "read:pets"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/ingredients/{id}": {
+      "get": {
+        "tags": [
+          "ingredients"
+        ],
+        "summary": "Get ingredient details",
+        "description": "Get ingredient details by matching the id",
+        "operationId": "getIngredient",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "ingredient id that need to be fetched"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful response"
+          },
+          "401": {
+            "description": "User not logged in / User does not have admin role"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "ingredients"
+        ],
+        "summary": "Update ingredient",
+        "description": "Update ingredient for params id - only logged in admin role can update this",
+        "operationId": "updateIngredient",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "ingredient id that need to be updates"
+          },
+          {
+            "name": "reqBody",
+            "in": "body",
+            "description": "Input ingredient details",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "availableQuantity": {
+                  "type": "number"
+                },
+                "thresholdQuantity": {
+                  "type": "number"
+                },
+                "price": {
+                  "type": "number"
+                },
+                "vendorName": {
+                  "type": "string"
+                },
+                "vendorEmail": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "name",
+                "availableQuantity",
+                "thresholdQuantity",
+                "price",
+                "vendorName",
+                "vendorEmail"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Invalid input value"
+          },
+          "401": {
+            "description": "User not logged in / User does not have admin role"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "ingredients"
+        ],
+        "summary": "Delete ingredient",
+        "description": "Delete ingredient using params id - only logged in admin role can update this",
+        "operationId": "deleteIngredient",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "ingredient id that need to be deleted"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Invalid input value"
+          },
+          "401": {
+            "description": "User not logged in / User does not have admin role"
+          }
+        }
+      }
+    },
+    "/api/ingredients/vendor/{name}": {
+      "get": {
+        "tags": [
+          "ingredients"
+        ],
+        "summary": "Get ingredients by the vendor",
+        "description": "Get all ingredient details provided by the vendor name in params for admin login only",
+        "operationId": "getVendorIngredients",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "name",
+            "description": "vendor name"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful response"
+          },
+          "401": {
+            "description": "User not logged in / User does not have admin role"
+          }
+        }
+      }
+    },
+    "/api/ingredients/select/allIngredients": {
+      "get": {
+        "tags": [
+          "ingredients"
+        ],
+        "summary": "Get all ingredient details",
+        "description": "Get all ingredient details for admin login only",
+        "operationId": "getAllIngredients",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "successful response"
+          },
+          "401": {
+            "description": "User not logged in / User does not have admin role"
+          }
+        }
+      }
+    },
+    "/api/ingredients/threshold/less": {
+      "get": {
+        "tags": [
+          "ingredients"
+        ],
+        "summary": "Get ingredient with less availability",
+        "description": "Get all ingredients whose available quantity is less than the threshold quantity",
+        "operationId": "selectIngredients",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "successful response"
+          },
+          "401": {
+            "description": "User not logged in / User does not have admin role"
+          }
+        }
+      }
+    },
+    "/api/food": {
+      "get": {
+        "tags": [
+          "food"
+        ],
+        "summary": "New food form page",
+        "description": "To load new food form - just send success response - need admin access",
+        "operationId": "loadFoodForm",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "successful response"
+          },
+          "401": {
+            "description": "User not logged in / User does not have admin role"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "food"
+        ],
+        "summary": "Create new food item",
+        "description": "New food item can be created with input data - only logged in admin role can create this",
+        "operationId": "createFoodItem",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "reqBody",
+            "in": "body",
+            "description": "Input food details",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "cuisine": {
+                  "type": "string"
+                },
+                "ingredients": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "costOfProduction": {
+                  "type": "number"
+                },
+                "sellingCost": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "name",
+                "cuisine",
+                "ingredients",
+                "costOfProduction",
+                "sellingCost"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Invalid input value"
+          }
+        }
+      }
+    },
+
+    "/api/food/{id}": {
+      "get": {
+        "tags": [
+          "food"
+        ],
+        "summary": "Get food detail",
+        "description": "Get food details by matching with id",
+        "operationId": "getFoodItem",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "food item id that need to be fetched"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful response"
+          },
+          "400": {
+            "description": "Invalid input data"
+          },
+          "401": {
+            "description": "User not logged in"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "food"
+        ],
+        "summary": "Update food item",
+        "description": "Update food item for selected id - only logged in admin role can update this",
+        "operationId": "updateFoodItem",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "food item id that needs to be updated"
+          },
+          {
+            "name": "reqBody",
+            "in": "body",
+            "description": "Input food item details",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "cuisine": {
+                  "type": "string"
+                },
+                "ingredients": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "costOfProduction": {
+                  "type": "number"
+                },
+                "sellingCost": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "name",
+                "cuisine",
+                "ingredients",
+                "costOfProduction",
+                "sellingCost"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Invalid input value"
+          },
+          "401": {
+            "description": "User not logged in / User does not have admin role"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "food"
+        ],
+        "summary": "Delete food item",
+        "description": "Delete food item using id - only logged in admin role can update this",
+        "operationId": "deleteFoodItem",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "food item id that needs to be deleted"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Invalid input value"
+          },
+          "401": {
+            "description": "User not logged in / User does not have admin role"
+          }
+        }
+      }
+    },
+
+    "/api/food/select/allFood": {
+      "get": {
+        "tags": [
+          "food"
+        ],
+        "summary": "Get all food items",
+        "description": "Get all food details",
+        "operationId": "getAllFoodItems",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "successful response"
+          },
+          "401": {
+            "description": "User not logged in"
+          }
+        }
+      }
+    },
+
+    "/api/food/select/highCostProd": {
+      "get": {
+        "tags": [
+          "food"
+        ],
+        "summary": "Get food item",
+        "description": "Get food items with costOfProduction higher than selling cost - need admin access",
+        "operationId": "getCOPFoodItems",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "successful response"
+          },
+          "401": {
+            "description": "User not logged in"
+          }
+        }
+      }
+    },
+
+    "/api/orders": {
+      "get": {
+        "tags": [
+          "orders"
+        ],
+        "summary": "Get orders",
+        "description": "Get all orders by the logged in users",
+        "operationId": "loadMyOrders",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "successful response"
+          },
+          "401": {
+            "description": "User not logged in"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "orders"
+        ],
+        "summary": "Create order",
+        "description": "Create order for food item on logged in user account",
+        "operationId": "createOrder",
+        "produces": [
+          "application/json"
+        ],
+
+        "parameters": [
+          {
+            "name": "reqBody",
+            "in": "body",
+            "description": "Input food details",
+            "schema": {
+              "type": "object",
+            "properties": {
+              "dateOfDelivery": {
+                "type": "date",
+                "example":"2020-09-26",
+                "description":"delivery date should be min one day after order date"
+              },
+              "modeOfTransport": {
+                "type": "string"
+              },
+              "foodid": {
+                "type": "array",
+                "description" : "ref to food item - food id",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+        ],
+      
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Invalid input value"
+          }
+        }
+      }
+    },
+
+    "/api/orders/{orderId}": {
+      "get": {
+        "tags": [
+          "orders"
+        ],
+        "summary": "Get selective order",
+        "description": "Get order by id by the logged in user - admin has access to view orders by any user",
+        "operationId": "getSelectiveOrder",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "orderId",
+            "description": "order id that need to be fetched"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful response"
+          },
+          "400": {
+            "description": "Invalid input data"
+          },
+          "401": {
+            "description": "User not logged in"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "orders"
+        ],
+        "summary": "Update order",
+        "description": "Update order for selected id - can update order only of pending status",
+        "operationId": "updateSelectiveOrder",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "orderId",
+            "description": "order id that needs to be updated"
+          },
+          {
+            "name": "reqBody",
+            "in": "body",
+            "description": "Input for order details",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "dateOfDelivery": {
+                  "type": "date",
+                  "example": "2020-09-27",
+                  "description": "min date should be greater than order placed date"
+                },
+                "modeOfTransport": {
+                  "type": "string"
+                },
+                "foodid": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              },
+              "required": [
+                "dateOfDelivery",
+                "foodid"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Invalid input value"
+          },
+          "401": {
+            "description": "User not logged in / User does not have admin role"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "orders"
+        ],
+        "summary": "Delete order",
+        "description": "Delete order using id - only logged in admin role can update this",
+        "operationId": "deleteOrder",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "orderId",
+            "description": "Order id that needs to be deleted"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Invalid input value"
+          },
+          "401": {
+            "description": "User not logged in / User does not have admin role"
+          }
+        }
+      }
+    },
+
+    "/api/orders/cancelOrder/{orderId}": {
+      "put": {
+        "tags": [
+          "orders"
+        ],
+        "summary": "Cancel order",
+        "description": "Update order status to cancel - can update order only of pending/shipped status",
+        "operationId": "cancelOrder",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "orderId",
+            "description": "order id that needs to be canceled"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Invalid input value / cannot cancel delivered order"
+          },
+          "401": {
+            "description": "User not logged in / User does not have admin role"
+          }
+        }
+      }
+    },
+
+    "/api/orders/userOrders/{userId}": {
+      "get": {
+        "tags": [
+          "orders"
+        ],
+        "summary": "Get orders by user",
+        "description": "Get all the orders of a user - admin has access to view orders by any user",
+        "operationId": "getUserOrders",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userId",
+            "description": "user id who's orders need to be fetched"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful response"
+          },
+          "400": {
+            "description": "Invalid input data / invalid user id"
+          },
+          "401": {
+            "description": "User not logged in / do not have admin role"
+          }
+        }
+      }
+    },
+
+    "/api/orders/anyuser/{orderId}": {
+      "put": {
+        "tags": [
+          "orders"
+        ],
+        "summary": "update orders by an user",
+        "description": "Update order status of any user - can update order of any user only by admin",
+        "operationId": "updateOrder",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "orderId",
+            "description": "order id that needs to be canceled"
+          },          {
+            "name": "reqBody",
+            "in": "body",
+            "description": "Input order status and mode of transport",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "enum" : [
+                    "Pending",
+                    "Shipped",
+                    "Canceled",
+                    "Delivered"
+                  ]
+                },
+                "modeOfTransport": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "status",
+                "modeOfTransport"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation"
+          },
+          "400": {
+            "description": "Invalid input value / cannot cancel delivered order"
+          },
+          "401": {
+            "description": "User not logged in / User does not have admin role"
+          }
+        }
+      }
+    },
+
+    "/api/orders/select/allOrders": {
+      "get": {
+        "tags": [
+          "orders"
+        ],
+        "summary": "Get orders by alluser",
+        "description": "Get all the orders of all users - admin has access to view orders by any user",
+        "operationId": "getUserAllOrders",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+        ],
+        "responses": {
+          "200": {
+            "description": "successful response"
+          },
+          "400": {
+            "description": "Invalid input data "
+          },
+          "401": {
+            "description": "User not logged in / do not have admin role"
+          }
+        }
+      }
+    }
+
+  },
+
+  "definitions": {
+
+    "Pet": {
+      "type": "object",
+      "required": [
+        "name",
+        "photoUrls"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "category": {
+          "$ref": "#/definitions/Category"
+        },
+        "name": {
+          "type": "string",
+          "example": "doggie"
+        },
+        "photoUrls": {
+          "type": "array",
+          "xml": {
+            "wrapped": true
+          },
+          "items": {
+            "type": "string",
+            "xml": {
+              "name": "photoUrl"
+            }
+          }
+        },
+        "tags": {
+          "type": "array",
+          "xml": {
+            "wrapped": true
+          },
+          "items": {
+            "xml": {
+              "name": "tag"
+            },
+            "$ref": "#/definitions/Tag"
+          }
+        },
+        "status": {
+          "type": "string",
+          "description": "pet status in the store",
+          "enum": [
+            "available",
+            "pending",
+            "sold"
+          ]
+        }
+      },
+      "xml": {
+        "name": "Pet"
+      }
+    },
+    "Tag": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "Tag"
+      }
+    },
+    "Order": {
+      "type": "object",
+      "required": [
+        "dateOfDelivery",
+        "email",
+        "role",
+        "password"
+      ],
+      "properties": {
+        "_id": {
+          "type": "objectid"
+        },
+        "orderNum": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string",
+          "description": "Order Status",
+          "enum": [
+            "Pending",
+            "shipped",
+            "Delivered",
+            "Canceled"
+          ]
+        },
+        "orderDate": {
+          "type": "date",
+          "format": "date-time"
+        },
+        "dateOfDelivery": {
+          "type": "date"
+        },
+        "modeOfTransport": {
+          "type": "string"
+        },
+        "userData": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "email": {
+              "type": "string"
+            }
+          }
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "objectId"
+          }
+        }
+      },
+      "xml": {
+        "name": "Order"
+      }
+    },
+    "User": {
+      "type": "object",
+      "required": [
+        "name",
+        "email",
+        "role",
+        "password"
+      ],
+      "properties": {
+        "_id": {
+          "type": "objectid"
+        },
+        "name": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "status": {
+          "type": "boolean"
+        },
+        "role": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "lastLoginAt": {
+          "type": "date"
+        },
+        "createdAt": {
+          "type": "date"
+        },
+        "updatedAt": {
+          "type": "date"
+        }
+      },
+      "xml": {
+        "name": "User"
+      }
+    }
+  }
+}
